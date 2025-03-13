@@ -1,3 +1,4 @@
+import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -16,10 +17,21 @@ class Rag:
         self.sentence_vectors = self.vectorizer.fit_transform(self.sentences)
 
     def query(self, input_text):
-        # Vectoritzem la consulta
+        # Vectoritza la consulta
         query_vector = self.vectorizer.transform([input_text])
-        # Calculem la similaritat cosinus entre la consulta i cada frase
+        # Calcula la similaritat cosinus entre la consulta i cada frase
         similarities = cosine_similarity(query_vector, self.sentence_vectors).flatten()
-        # Troba l'índex de la frase amb la major similaritat
+        # Retorna la frase amb la major similaritat
         best_match_index = similarities.argmax()
         return self.sentences[best_match_index]
+
+    def save(self, filename):
+        # Desa l'objecte Rag en un fitxer utilitzant pickle
+        with open(filename, "wb") as f:
+            pickle.dump(self, f)
+    
+    @staticmethod
+    def load(filename):
+        # Carrega l'objecte Rag des del fitxer
+        with open(filename, "rb") as f:
+            return pickle.load(f)
