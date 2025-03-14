@@ -4,7 +4,6 @@ mp.set_sharing_strategy('file_system')
 from rag import Rag
 
 def main():
-    # Intentem carregar el model desat
     try:
         rag = Rag.load("rag_model.pkl")
         print("Model carregat des de rag_model.pkl")
@@ -21,7 +20,8 @@ def main():
             print("Fins aviat!")
             break
         result = rag.query(user_input)
-        print("Frase més relacionada:", result)
+        print("Contingut rellevant:")
+        print(result)
 
 if __name__ == "__main__":
     main()
